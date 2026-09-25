@@ -89,40 +89,21 @@ function escapeVCard(str: string): string {
 export function formatQRData(type: QRType, values: QRFormValues): { data: string; isValid: boolean; error?: string } {
   switch (type) {
     case 'url': {
-      // 1. Strip zero-width and invisible control characters, then trim
-      const raw = values.url.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
-      if (!raw) {
+      let url = values.url.trim();
+      if (!url) {
         return { data: '', isValid: false, error: 'Please enter a website URL.' };
       }
-
-      // If user is currently typing protocol only
-      if (raw === 'http://' || raw === 'https://' || raw === 'http:' || raw === 'https:') {
-        return { data: raw, isValid: false, error: 'Please enter your website domain.' };
+      if (!/^https?:\/\//i.test(url)) {
+        url = 'https://' + url;
       }
-
-      // 2. Prepend https:// if no protocol scheme is present
-      let formattedUrl = raw;
-      if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//i.test(formattedUrl)) {
-        formattedUrl = 'https://' + formattedUrl;
-      }
-
-      // 3. Robust URL validation
       try {
-        const parsed = new URL(formattedUrl);
-        const host = parsed.hostname.toLowerCase();
-
-        if (!host) {
-          return { data: formattedUrl, isValid: false, error: 'Please enter a valid website address.' };
+        const parsed = new URL(url);
+        if (!parsed.hostname || (!parsed.hostname.includes('.') && parsed.hostname !== 'localhost')) {
+          return { data: url, isValid: false, error: 'Please enter a valid domain (e.g. example.com).' };
         }
-
-        // Accept any valid domain, localhost, or IP addresses
-        return { data: formattedUrl, isValid: true };
+        return { data: url, isValid: true };
       } catch {
-        // Fallback: If partial or custom URL format with length, maintain live preview
-        if (raw.length >= 3) {
-          return { data: formattedUrl, isValid: true };
-        }
-        return { data: raw, isValid: false, error: 'Please enter a valid website URL.' };
+        return { data: url, isValid: false, error: 'Please enter a valid website URL.' };
       }
     }
 

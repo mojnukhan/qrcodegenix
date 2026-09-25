@@ -41,6 +41,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
   onSuccessfulAction,
 }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const printCanvasRef = useRef<HTMLCanvasElement>(null);
   const [isRendering, setIsRendering] = useState(false);
   const [copiedData, setCopiedData] = useState(false);
   const [copiedImage, setCopiedImage] = useState(false);
@@ -59,6 +60,9 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
       setIsRendering(true);
       try {
         await renderQRToCanvas(canvasRef.current, qrData, options);
+        if (printCanvasRef.current) {
+          await renderQRToCanvas(printCanvasRef.current, qrData, options);
+        }
       } catch (err) {
         console.error('Canvas render error:', err);
       } finally {
@@ -321,7 +325,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
           >
             <canvas
               ref={canvasRef}
-              className={`qr-canvas ${!hasContent ? 'qr-canvas-hidden hidden' : ''}`}
+              className={`qr-canvas ${!hasContent ? 'hidden' : ''}`}
               aria-label="Generated QR Code"
               role="img"
             />
@@ -529,7 +533,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
           <h1 className="print-title">Scan to Connect</h1>
           <p className="print-sub">Scan this QR code with any smartphone camera</p>
           <div className="print-qr-frame">
-            <canvas ref={canvasRef} className="print-canvas" />
+            <canvas ref={printCanvasRef} className="print-canvas" />
           </div>
           <p className="print-payload">{qrData}</p>
           <p className="print-footer">Generated with QRCodeGenix • Free & Private QR Studio</p>

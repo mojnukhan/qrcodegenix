@@ -78,7 +78,7 @@ export const QRFormInputs: React.FC<QRFormInputsProps> = ({
               </span>
             ) : (
               <span className="hint-text">
-                <CheckCircle2 size={13} className="text-success" /> Live preview updates automatically as you type.
+                <CheckCircle2 size={13} className="text-success" /> Enter any valid web address.
               </span>
             )}
           </div>

@@ -1415,8 +1415,8 @@ select:focus-visible {
 .qr-stage {
   position: relative;
   width: 100%;
-  max-width: 300px;
-  min-height: 280px;
+  max-width: 320px;
+  min-height: 260px;
   aspect-ratio: 1 / 1;
   border-radius: var(--radius-lg);
   border: 1px solid var(--border-color);
@@ -1425,7 +1425,7 @@ select:focus-visible {
   justify-content: center;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  padding: 0.85rem;
+  padding: 1rem;
 }
 
 .checker-bg {
@@ -1446,17 +1446,15 @@ select:focus-visible {
 
 .qr-canvas {
   display: block;
-  width: 100% !important;
-  height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
   margin: 0 auto;
   transition: opacity var(--transition-fast);
 }
 
-.qr-canvas.qr-canvas-hidden,
 .qr-canvas.hidden {
   display: none !important;
 }
@@ -2747,26 +2745,13 @@ select:focus-visible {
 
   .generator-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.25rem !important;
-  }
-
-  .generator-left-col {
-    display: contents !important;
-  }
-
-  .form-card {
-    order: 1 !important;
+    gap: 1rem !important;
   }
 
   .generator-right-col {
-    order: 2 !important;
-    position: static !important;
-    top: auto !important;
-    margin-top: 0 !important;
-  }
-
-  .customizer-card {
-    order: 3 !important;
+    position: static;
+    order: 3;
+    margin-top: 1rem;
   }
 
   /* 5. Sub-form column collapsing */
@@ -2783,9 +2768,8 @@ select:focus-visible {
   }
 
   .qr-stage {
-    max-width: 260px !important;
-    min-height: 240px !important;
-    margin: 0 auto !important;
+    max-width: 250px !important;
+    margin: 0 auto;
     padding: 0.75rem !important;
   }
 
@@ -2876,8 +2860,7 @@ select:focus-visible {
   }
 
   .qr-stage {
-    max-width: 240px !important;
-    min-height: 220px !important;
+    max-width: 230px !important;
   }
 }
 
