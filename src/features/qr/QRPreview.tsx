@@ -321,7 +321,7 @@ export const QRPreview: React.FC<QRPreviewProps> = ({
           >
             <canvas
               ref={canvasRef}
-              className={`qr-canvas ${!hasContent ? 'hidden' : ''}`}
+              className={`qr-canvas ${!hasContent ? 'qr-canvas-hidden hidden' : ''}`}
               aria-label="Generated QR Code"
               role="img"
             />

@@ -89,21 +89,40 @@ function escapeVCard(str: string): string {
 export function formatQRData(type: QRType, values: QRFormValues): { data: string; isValid: boolean; error?: string } {
   switch (type) {
     case 'url': {
-      let url = values.url.trim();
-      if (!url) {
+      // 1. Strip zero-width and invisible control characters, then trim
+      const raw = values.url.replace(/[\u200B-\u200D\uFEFF]/g, '').trim();
+      if (!raw) {
         return { data: '', isValid: false, error: 'Please enter a website URL.' };
       }
-      if (!/^https?:\/\//i.test(url)) {
-        url = 'https://' + url;
+
+      // If user is currently typing protocol only
+      if (raw === 'http://' || raw === 'https://' || raw === 'http:' || raw === 'https:') {
+        return { data: raw, isValid: false, error: 'Please enter your website domain.' };
       }
+
+      // 2. Prepend https:// if no protocol scheme is present
+      let formattedUrl = raw;
+      if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//i.test(formattedUrl)) {
+        formattedUrl = 'https://' + formattedUrl;
+      }
+
+      // 3. Robust URL validation
       try {
-        const parsed = new URL(url);
-        if (!parsed.hostname || !parsed.hostname.includes('.')) {
-          return { data: url, isValid: false, error: 'Please enter a valid domain (e.g. example.com).' };
+        const parsed = new URL(formattedUrl);
+        const host = parsed.hostname.toLowerCase();
+
+        if (!host) {
+          return { data: formattedUrl, isValid: false, error: 'Please enter a valid website address.' };
         }
-        return { data: url, isValid: true };
+
+        // Accept any valid domain, localhost, or IP addresses
+        return { data: formattedUrl, isValid: true };
       } catch {
-        return { data: url, isValid: false, error: 'Please enter a valid website URL.' };
+        // Fallback: If partial or custom URL format with length, maintain live preview
+        if (raw.length >= 3) {
+          return { data: formattedUrl, isValid: true };
+        }
+        return { data: raw, isValid: false, error: 'Please enter a valid website URL.' };
       }
     }
 
@@ -399,6 +418,10 @@ export async function renderQRToCanvas(
       errorCorrectionLevel: options.errorCorrection,
     });
 
+    // Reset inline dimensions injected by QRCode library so CSS responsive rules take full control
+    canvas.style.width = '';
+    canvas.style.height = '';
+
     if (options.logoDataUrl) {
       await drawLogoOnCanvas(canvas, options);
     }
@@ -425,6 +448,8 @@ export async function renderQRToCanvas(
   const layout = getFrameLayout(options);
   canvas.width = layout.totalW;
   canvas.height = layout.totalH;
+  canvas.style.width = '';
+  canvas.style.height = '';
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 

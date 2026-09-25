@@ -49,9 +49,13 @@ export const QRFormInputs: React.FC<QRFormInputsProps> = ({
           <div className="input-with-action">
             <input
               id="qr-url-input"
-              type="url"
+              type="text"
+              inputMode="url"
+              autoCapitalize="none"
+              autoCorrect="off"
+              spellCheck={false}
               className={`form-input ${!isValid && values.url ? 'input-error' : ''}`}
-              placeholder="https://example.com"
+              placeholder="e.g. google.com or https://example.com"
               value={values.url}
               onChange={e => onChange({ url: e.target.value })}
               autoFocus
@@ -74,7 +78,7 @@ export const QRFormInputs: React.FC<QRFormInputsProps> = ({
               </span>
             ) : (
               <span className="hint-text">
-                <CheckCircle2 size={13} className="text-success" /> Enter any valid web address.
+                <CheckCircle2 size={13} className="text-success" /> Live preview updates automatically as you type.
               </span>
             )}
           </div>
