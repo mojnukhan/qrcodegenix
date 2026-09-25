@@ -95,6 +95,9 @@ html {
   font-size: 16px;
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
+  overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
 }
 
 body {
@@ -104,6 +107,9 @@ body {
   line-height: 1.5;
   min-height: 100vh;
   overflow-x: hidden;
+  max-width: 100%;
+  width: 100%;
+  position: relative;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -2638,6 +2644,17 @@ select:focus-visible {
 }
 
 @media (max-width: 768px) {
+  /* 1. Prevent iOS & mobile Chrome auto-zoom on input focus */
+  input,
+  textarea,
+  select,
+  .form-input,
+  .form-textarea,
+  .form-select,
+  .color-hex-input {
+    font-size: 16px !important;
+  }
+
   .desktop-only {
     display: none !important;
   }
@@ -2650,16 +2667,82 @@ select:focus-visible {
     display: none;
   }
 
-  .hero-headline {
-    font-size: 2.15rem;
+  /* 2. Compact container & workspace padding for mobile screens */
+  .container,
+  .generator-anchor-container {
+    padding-left: 0.85rem !important;
+    padding-right: 0.85rem !important;
   }
 
-  .type-selector-tabs {
-    grid-template-columns: repeat(3, 1fr);
+  .generator-workspace {
+    padding: 1.15rem 0.85rem !important;
+    border-radius: var(--radius-lg) !important;
+    margin-bottom: 2rem !important;
+  }
+
+  /* 3. Hero section typography & actions */
+  .hero-section {
+    padding: 2.25rem 0.75rem 1.25rem !important;
+  }
+
+  .hero-headline {
+    font-size: clamp(1.75rem, 7vw, 2.25rem) !important;
+    line-height: 1.2 !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  .hero-subheadline {
+    font-size: 0.9375rem !important;
+    line-height: 1.5 !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .hero-actions {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 0.65rem !important;
+  }
+
+  .hero-actions .btn {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .workspace-heading {
+    font-size: 1.35rem !important;
+    line-height: 1.25 !important;
+  }
+
+  .workspace-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.85rem;
+  }
+
+  .workspace-quick-actions {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* 4. Categorized QR type selector grid */
+  .type-selector-tabs,
+  .categorized-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+  }
+
+  .type-tab-btn {
+    padding: 0.55rem 0.4rem !important;
+    font-size: 0.8125rem !important;
+    min-height: 40px !important;
   }
 
   .generator-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
   }
 
   .generator-right-col {
@@ -2668,67 +2751,113 @@ select:focus-visible {
     margin-top: 1rem;
   }
 
+  /* 5. Sub-form column collapsing */
+  .grid-2-col,
+  .grid-3-col {
+    grid-template-columns: 1fr !important;
+    gap: 0.65rem !important;
+  }
+
+  /* 6. Preview Card & Stage */
+  .preview-card {
+    padding: 1.15rem 0.85rem !important;
+    border-radius: var(--radius-lg) !important;
+  }
+
+  .qr-stage {
+    max-width: 250px !important;
+    margin: 0 auto;
+    padding: 0.75rem !important;
+  }
+
+  .preview-actions-secondary.four-col {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.45rem !important;
+  }
+
+  .btn-action-pill {
+    font-size: 0.75rem !important;
+    padding: 0.5rem 0.25rem !important;
+  }
+
+  /* 7. Frames & Colors on mobile */
+  .frame-style-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.4rem !important;
+  }
+
+  .frame-style-card {
+    padding: 0.5rem 0.6rem !important;
+  }
+
+  .frame-card-title {
+    font-size: 0.775rem !important;
+  }
+
+  .frame-card-desc {
+    font-size: 0.65rem !important;
+  }
+
+  .frame-badge-options-row {
+    flex-direction: column !important;
+    gap: 0.65rem !important;
+  }
+
+  .color-pickers-grid {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .preset-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.4rem !important;
+  }
+
+  /* 8. Other sections */
   .features-grid,
   .steps-grid,
   .tools-cards-grid,
   .use-cases-grid,
   .principles-grid,
   .contact-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr !important;
   }
 
   .footer-container {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
   }
 
   .footer-links-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
   }
 
   .footer-bottom-container {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-direction: column !important;
+    align-items: flex-start !important;
   }
 }
 
 @media (max-width: 480px) {
-  .type-selector-tabs {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .preset-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .color-pickers-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .preview-actions-secondary {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-links-grid {
-    grid-template-columns: 1fr;
-  }
-
   .hero-headline {
-    font-size: 1.85rem;
+    font-size: 1.75rem !important;
   }
 
   .generator-workspace {
-    padding: 1.25rem 0.85rem;
-    border-radius: var(--radius-lg);
+    padding: 1rem 0.65rem !important;
   }
 
   .content-card {
-    padding: 1rem;
+    padding: 0.85rem !important;
   }
 
   .preview-card {
-    padding: 1rem;
+    padding: 0.85rem !important;
+  }
+
+  .qr-stage {
+    max-width: 230px !important;
   }
 }
 
