@@ -1,0 +1,17 @@
+{
+  "name": "QRCodeGenix - Free QR Code Generator",
+  "short_name": "QRCodeGenix",
+  "description": "Create, customize, and download high-resolution QR codes directly in your browser.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
